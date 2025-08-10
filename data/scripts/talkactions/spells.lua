@@ -1,70 +1,42 @@
 local talk = TalkAction("!spells")
 
-local function sendChunkedList(player, header, items, maxLen)
-    maxLen = maxLen or 220
-    player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE, header)
-    if #items == 0 then
-        player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE, "- brak")
-        return
-    end
-    local line = ""
-    for _, name in ipairs(items) do
-        local part = (line == "" and name or ", " .. name)
-        if (#line + #part) > maxLen then
-            player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE, line)
-            line = name
-        else
-            line = line .. part
-        end
-    end
-    if line ~= "" then
-        player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE, line)
-    end
-end
-
 function talk.onSay(player, words, param)
-    -- Enumerate all instant spells available to this player (by vocation or learned)
     local count = getPlayerInstantSpellCount(player:getId())
 
-    local collected = {}
+    local text = ""
+    local spells = {}
+
     for i = 0, count - 1 do
         local spell = getPlayerInstantSpellInfo(player:getId(), i)
-        if spell and spell.level ~= 0 then
-            local manaStr = tostring(spell.mana)
+        if spell.level ~= 0 then
             if spell.manapercent and spell.manapercent > 0 then
-                manaStr = tostring(spell.manapercent) .. "%"
+                spell.mana = tostring(spell.manapercent) .. "%"
             end
-            table.insert(collected, {
-                level = spell.level or 0,
-                name = spell.name or "",
-                words = spell.words or "",
-                mlevel = spell.mlevel or 0,
-                manaStr = manaStr,
-            })
+            spells[#spells + 1] = spell
         end
     end
 
-    table.sort(collected, function(a, b)
-        if a.level ~= b.level then
-            return a.level < b.level
-        end
-        if a.name ~= b.name then
-            return a.name:lower() < b.name:lower()
-        end
-        return a.words:lower() < b.words:lower()
-    end)
+    table.sort(spells, function(a, b) return a.level < b.level end)
 
-    local items = {}
-    for _, s in ipairs(collected) do
-        table.insert(items, string.format("%s - %s (lvl %d, ml %d, mana %s)", s.words, s.name, s.level, s.mlevel, s.manaStr))
+    local prevLevel = -1
+    for i, spell in ipairs(spells) do
+        local line = ""
+        if prevLevel ~= spell.level then
+            if i ~= 1 then
+                line = "\n"
+            end
+            line = line .. "Spells for Level " .. spell.level .. "\n"
+            prevLevel = spell.level
+        end
+        text = text .. line .. "  " .. spell.words .. " - " .. spell.name .. " : " .. spell.mana .. "\n"
     end
 
-    if #items == 0 then
-        player:sendTextMessage(MESSAGE_INFO_DESCR, "Brak dostępnych zaklęć.")
-        return false
+    if text == "" then
+        text = "Brak dostępnych zaklęć."
     end
 
-    sendChunkedList(player, string.format("Dostępne zaklęcia (%d):", #items), items)
+    -- Open spellbook dialog (item id 2175) with the constructed text
+    player:showTextDialog(2175, text)
     return false
 end
 
