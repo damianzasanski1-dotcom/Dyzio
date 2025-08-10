@@ -47,4 +47,7 @@
 	<!-- test talkactions -->
 	<talkaction words="!z" separator=" " script="magiceffect.lua"/>
 	<talkaction words="!x" separator=" " script="animationeffect.lua"/>
+	
+	<!-- spells dialog -->
+	<talkaction words="!spells" script="spells.lua"/>
 </talkactions>
