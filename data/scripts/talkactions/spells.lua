@@ -23,23 +23,48 @@ local function sendChunkedList(player, header, items, maxLen)
 end
 
 function talk.onSay(player, words, param)
-    local resultId = db.storeQuery("SELECT name FROM player_spells WHERE player_id = " .. player:getGuid())
-    if not resultId then
-        player:sendTextMessage(MESSAGE_INFO_DESCR, "Nie masz żadnych nauczonych zaklęć.")
+    -- Enumerate all instant spells available to this player (by vocation or learned)
+    local count = getPlayerInstantSpellCount(player:getId())
+
+    local collected = {}
+    for i = 0, count - 1 do
+        local spell = getPlayerInstantSpellInfo(player:getId(), i)
+        if spell and spell.level ~= 0 then
+            local manaStr = tostring(spell.mana)
+            if spell.manapercent and spell.manapercent > 0 then
+                manaStr = tostring(spell.manapercent) .. "%"
+            end
+            table.insert(collected, {
+                level = spell.level or 0,
+                name = spell.name or "",
+                words = spell.words or "",
+                mlevel = spell.mlevel or 0,
+                manaStr = manaStr,
+            })
+        end
+    end
+
+    table.sort(collected, function(a, b)
+        if a.level ~= b.level then
+            return a.level < b.level
+        end
+        if a.name ~= b.name then
+            return a.name:lower() < b.name:lower()
+        end
+        return a.words:lower() < b.words:lower()
+    end)
+
+    local items = {}
+    for _, s in ipairs(collected) do
+        table.insert(items, string.format("%s - %s (lvl %d, ml %d, mana %s)", s.words, s.name, s.level, s.mlevel, s.manaStr))
+    end
+
+    if #items == 0 then
+        player:sendTextMessage(MESSAGE_INFO_DESCR, "Brak dostępnych zaklęć.")
         return false
     end
 
-    local spells = {}
-    repeat
-        local spellName = result.getString(resultId, "name")
-        if spellName and spellName ~= "" then
-            table.insert(spells, spellName)
-        end
-    until not result.next(resultId)
-    result.free(resultId)
-
-    table.sort(spells, function(a, b) return a:lower() < b:lower() end)
-    sendChunkedList(player, string.format("Nauczone zaklęcia (%d):", #spells), spells)
+    sendChunkedList(player, string.format("Dostępne zaklęcia (%d):", #items), items)
     return false
 end
 
