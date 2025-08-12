@@ -15,5 +15,7 @@ function onLogin(cid)
 	player:sendTextMessage(MESSAGE_STATUS_DEFAULT, loginStr)
 
 	player:registerEvent("PlayerDeath")
+	player:registerEvent("TaskModal")
+	player:registerEvent("TaskKill")
 	return true
 end
