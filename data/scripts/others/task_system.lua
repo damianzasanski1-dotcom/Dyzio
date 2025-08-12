@@ -59,7 +59,10 @@ local function itemEntryToLabel(entry)
   if type(entry.id) == "string" then
     return string.format("%s x%d", entry.id, entry.count or 1)
   else
-    return string.format("itemId %d x%d", entry.id, entry.count or 1)
+    local t = ItemType(entry.id)
+    local name = t and t:getName() or ("itemId " .. tostring(entry.id))
+    if name == "" then name = "itemId " .. tostring(entry.id) end
+    return string.format("%s x%d", name, entry.count or 1)
   end
 end
 
