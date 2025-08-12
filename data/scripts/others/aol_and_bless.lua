@@ -65,6 +65,17 @@ local function formatCoins(amount)
   return table.concat(parts, ", ")
 end
 
+-- Local bless cost (same as data/global.lua:getBlessingsCost)
+local function blessCostForLevel(level)
+  if level <= 30 then
+    return 2000
+  elseif level >= 120 then
+    return 20000
+  else
+    return ((level - 20) * 200)
+  end
+end
+
 -- !AOL: kupuje Amulet of Loss za 5cc
 local aolTalk = TalkAction("!AOL")
 function aolTalk.onSay(player, words, param)
@@ -84,11 +95,10 @@ end
 aolTalk:register()
 
 -- !bless: kupuje wszystkie blessy, cena zalezy od poziomu
--- Uzywana funkcja getBlessingsCost(level) z data/global.lua
 local blessTalk = TalkAction("!bless")
 function blessTalk.onSay(player, words, param)
   local level = player:getLevel()
-  local perBless = getBlessingsCost(level)
+  local perBless = blessCostForLevel(level)
   local numBless = 5 -- standardowe 5 blogoslawienstw
   local totalGold = perBless * numBless
 
