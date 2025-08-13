@@ -106,8 +106,28 @@ function Player:onTradeAccept(target, item, targetItem)
 	return true
 end
 
+-- BONUS EXP: integrowane tutaj, aby na pewno zadzialalo
+local STG_EXP_BONUS_UNTIL = 53000
+local STG_EXP_BONUS_RATE  = 53001
+
+local function getActiveRate(player)
+	local now = os.time()
+	local untilTs = player:getStorageValue(STG_EXP_BONUS_UNTIL)
+	local rate = player:getStorageValue(STG_EXP_BONUS_RATE)
+	if untilTs ~= -1 and untilTs > now and rate and rate > 100 then
+		return rate
+	end
+	player:setStorageValue(STG_EXP_BONUS_UNTIL, -1)
+	player:setStorageValue(STG_EXP_BONUS_RATE, -1)
+	return 100
+end
+
 function Player:onGainExperience(source, exp, rawExp)
-	return exp
+	local rate = getActiveRate(self)
+	if rate <= 100 then
+		return exp
+	end
+	return math.floor(exp * rate / 100)
 end
 
 function Player:onLoseExperience(exp)

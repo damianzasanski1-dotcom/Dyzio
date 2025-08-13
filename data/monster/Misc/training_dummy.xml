@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Training Dummy" nameDescription="a training dummy" race="undead" experience="0" speed="0" manacost="0">
+	<health now="1000000" max="1000000"/>
+	<look type="546" corpse="0"/> <!-- wybierz wyglad wedlug potrzeb -->
+	<targetchange interval="5000" chance="0"/>
+	<flags>
+		<flag summonable="0"/>
+		<flag attackable="1"/>
+		<flag hostile="0"/>
+		<flag illusionable="0"/>
+		<flag convinceable="0"/>
+		<flag pushable="0"/>
+		<flag canpushitems="0"/>
+		<flag canpushcreatures="0"/>
+		<flag targetdistance="1"/>
+		<flag staticattack="0"/>
+		<flag runonhealth="0"/>
+	</flags>
+	<attacks>
+		<!-- brak atakow -->
+	</attacks>
+	<defenses armor="100" defense="100"/>
+	<immunities>
+		<immunity paralyze="1"/>
+		<immunity invisible="1"/>
+		<immunity fire="1"/>
+		<immunity energy="1"/>
+		<immunity poison="1"/>
+		<immunity lifedrain="1"/>
+	</immunities>
+</monster>

@@ -1347,7 +1347,21 @@ class Player : public Creature, public Cylinder
 		bool isPromoted() const;
 
 		uint32_t getAttackSpeed() const {
-			return vocation->getAttackSpeed();
+			uint32_t base = vocation->getAttackSpeed();
+			// Per-weapon override: if holding the special weapon, attack faster
+			static const uint16_t FAST_WEAPON_ID = 0; // set your weapon id here (>0 to enable)
+			static const uint32_t MIN_ATTACK_SPEED = 200; // clamp to avoid too fast
+			static const uint32_t NUM = 7;  // 0.7x of base speed (faster)
+			static const uint32_t DEN = 10;
+			if (FAST_WEAPON_ID > 0) {
+				Item* right = getInventoryItem(CONST_SLOT_RIGHT);
+				Item* left = getInventoryItem(CONST_SLOT_LEFT);
+				if ((right && right->getID() == FAST_WEAPON_ID) || (left && left->getID() == FAST_WEAPON_ID)) {
+					uint32_t modified = (base * NUM) / DEN;
+					return modified < MIN_ATTACK_SPEED ? MIN_ATTACK_SPEED : modified;
+				}
+			}
+			return base;
 		}
 
 		uint16_t getDropPercent() const;
