@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <monsters>
+	<!-- Training -->
+	<monster name="Training Dummy" file="Misc/training_dummy.xml"/>
+
 	<!-- Amazons -->
 	<monster name="Amazon" file="Amazons/amazon.xml"/>
 	<monster name="Valkyrie" file="Amazons/valkyrie.xml"/>

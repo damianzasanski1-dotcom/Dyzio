@@ -6,4 +6,5 @@
 	<event type="extendedopcode" name="ExtendedOpcode" script="extendedopcode.lua"/>
 	<event type="modalwindow" name="TaskModal" script="task_modal.lua"/>
 	<event type="kill" name="TaskKill" script="task_kill.lua"/>
+	<event type="healthchange" name="TrainingDummy" script="training_dummy.lua"/>
 </creaturescripts>

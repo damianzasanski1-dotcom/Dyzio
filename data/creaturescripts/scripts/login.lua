@@ -17,5 +17,6 @@ function onLogin(cid)
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("TaskModal")
 	player:registerEvent("TaskKill")
+	player:registerEvent("TrainingDummy")
 	return true
 end
