@@ -198,13 +198,11 @@ function eLogin.onLogin(player)
 	player:registerEvent("WXP_Kill")
 	player:registerEvent("WXP_Hit")
 	player:registerEvent("WXP_Modal")
+	-- tylko rejestracja i odświeżenie opisu, bez transformów/ustawiania atrybutów
 	local tool,wt=getMeleeWeapon(player)
 	if tool then
 		local w=readWxp(tool); if not w.cap or w.cap<=0 then w.cap=BASE_CAP end
 		writeWxp(tool,w)
-		tryApplyRealAtkDef(tool,w)
-		tryApplyRuntimeElement(tool,w.elem,(w.level or 0))
-		refresh(tool)
 	end
 	return true
 end
