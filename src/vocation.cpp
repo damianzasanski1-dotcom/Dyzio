@@ -214,7 +214,7 @@ Vocation::Vocation(uint16_t id)
 	skillMultipliers[6] = 1.1f;
 }
 
-uint32_t Vocation::getReqSkillTries(int32_t skill, int32_t level)
+uint64_t Vocation::getReqSkillTries(int32_t skill, int32_t level)
 {
 	if (skill < SKILL_FIRST || skill > SKILL_LAST) {
 		return 0;
@@ -225,7 +225,10 @@ uint32_t Vocation::getReqSkillTries(int32_t skill, int32_t level)
 		return it->second;
 	}
 
-	uint32_t tries = static_cast<uint32_t>(skillBase[skill] * std::pow(static_cast<float>(skillMultipliers[skill]), level - 11));
+	long double base = static_cast<long double>(skillBase[skill]);
+	long double multiplier = static_cast<long double>(skillMultipliers[skill]);
+	long double power = std::pow(multiplier, static_cast<long double>(level - 11));
+	uint64_t tries = static_cast<uint64_t>(base * power);
 	cacheSkill[skill][level] = tries;
 	return tries;
 }

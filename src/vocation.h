@@ -35,7 +35,7 @@ class Vocation
 		const std::string& getVocDescription() const {
 			return description;
 		}
-		uint32_t getReqSkillTries(int32_t skill, int32_t level);
+		uint64_t getReqSkillTries(int32_t skill, int32_t level);
 		uint64_t getReqMana(uint32_t magLevel);
 
 		uint16_t getId() const {
@@ -93,7 +93,7 @@ class Vocation
 		friend class Vocations;
 
 		std::map<uint32_t, uint64_t> cacheMana;
-		std::map<uint32_t, uint32_t> cacheSkill[SKILL_LAST + 1];
+		std::map<uint32_t, uint64_t> cacheSkill[SKILL_LAST + 1];
 
 		std::string name;
 		std::string description;
