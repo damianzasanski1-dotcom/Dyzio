@@ -27,6 +27,30 @@ local ELEM = {
 	physical = { type = COMBAT_PHYSICALDAMAGE, effect = CONST_ME_DRAWBLOOD,    label = "Physical" },
 }
 
+-- mapowania ID klonów dla miecza bazowego 2376 na każdy poziom (bez/with fire)
+local CLONES = {
+	[0]  = 2376,
+	[1]  = 60001,
+	[2]  = 60002,
+	[3]  = 60003,
+	[4]  = 60004,
+	[5]  = 60005,
+	[6]  = 60006,
+	[7]  = 60007,
+	[8]  = 60008,
+	[9]  = 60009,
+	[10] = 60010,
+}
+local CLONES_FIRE = {
+	[5]  = 60015,
+	[6]  = 60016,
+	[7]  = 60017,
+	[8]  = 60018,
+	[9]  = 60019,
+	[10] = 60020,
+}
+
+
 local ELEM_CHOICES = {
 	{id=1,key="fire"},{id=2,key="ice"},{id=3,key="energy"},{id=4,key="earth"},
 	{id=5,key="holy"},{id=6,key="death"},{id=7,key="poison"},{id=8,key="physical"},
@@ -112,11 +136,15 @@ function eKill.onKill(creature,target)
 			w.level=math.min(MAX_LEVEL,(w.level or 0)+1)
 			w.xp=0; w.cap=defaultCapForLevel((w.level or 0)+1)
 			writeWxp(tool,w)
-			if not tryApplyRealAtkDef(tool,w) then
-				player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE,"Runtime Atk/Def not supported. Using simulated +dmg per hit.")
+			-- transform to real cloned ID (element-aware)
+			local newId
+			if (w.level or 0) >= 5 and w.elem == "fire" then
+				newId = CLONES_FIRE[w.level]
+			else
+				newId = CLONES[w.level]
 			end
-			tryApplyRuntimeElement(tool,w.elem,(w.level or 0))
-			player:sendTextMessage(MESSAGE_EVENT_ADVANCE,string.format("Bron +%d.",w.level))
+			if newId and newId ~= tool:getId() then tool:transform(newId) end
+			player:sendTextMessage(MESSAGE_EVENT_ADVANCE,string.format("Weapon +%d.",w.level))
 		else
 			writeWxp(tool,w)
 			player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE,string.format("Kill XP: %d/%d",w.xp,w.cap))
@@ -163,11 +191,15 @@ function eModal.onModalWindow(player,modalWindowId,buttonId,choiceId)
 	local chosen; for _,c in ipairs(ELEM_CHOICES) do if c.id==choiceId then chosen=c.key break end end
 	if not chosen or not ELEM[chosen] then player:sendCancelMessage("Nieprawidlowy wybor."); return true end
 	w.elem=chosen; writeWxp(tool,w)
-	if not tryApplyRuntimeElement(tool,w.elem,(w.level or 0)) then
-		-- fallback handled in onHealthChange
+	-- transform to proper elemental clone if available
+	local newId
+	if (w.level or 0) >= 5 and w.elem == "fire" then
+		newId = CLONES_FIRE[w.level]
+	else
+		newId = CLONES[w.level]
 	end
-	refresh(tool)
-	player:sendTextMessage(MESSAGE_INFO_DESCR,"Ustawiono element: "..chosen)
+	if newId and newId ~= tool:getId() then tool:transform(newId) end
+	player:sendTextMessage(MESSAGE_INFO_DESCR,"Element set: "..chosen)
 	player:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
 	return true
 end

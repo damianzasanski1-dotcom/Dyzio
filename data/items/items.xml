@@ -15582,7 +15582,7 @@
 	<item id="8843" article="an" name="onion">
 		<attribute key="weight" value="140" />
 	</item>
-	<item id="8844" name="jalapeño pepper" article="a">
+	<item id="8844" name="jalapeï¿½o pepper" article="a">
 		<attribute key="weight" value="30" />
 	</item>
 	<item id="8845" article="a" name="beetroot">
@@ -17615,7 +17615,7 @@
 		<attribute key="description" value="This one would be quite healthy if it wasn't for all the melted cheese on top." />
 		<attribute key="weight" value="1100" />
 	</item>
-	<item id="9998" article="a" name="filled jalapeño peppers">
+	<item id="9998" article="a" name="filled jalapeï¿½o peppers">
 		<attribute key="description" value="The creamy cheese makes a great combination with the spicy peppers." />
 		<attribute key="weight" value="650" />
 	</item>
@@ -30141,4 +30141,133 @@
 	<item id="30028" name="swamp" />
 	<item id="30035" name="tea" />
 	<item id="30043" name="mead" />
+	<!-- CLONED WEAPON VARIANTS FOR UPGRADE SYSTEM (sword 2376 base) -->
+	<item id="60001" article="a" name="sword +1">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="13" />
+		<attribute key="attack" value="15" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60002" article="a" name="sword +2">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="14" />
+		<attribute key="attack" value="16" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60003" article="a" name="sword +3">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="15" />
+		<attribute key="attack" value="17" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60004" article="a" name="sword +4">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="16" />
+		<attribute key="attack" value="18" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60005" article="a" name="sword +5">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="17" />
+		<attribute key="attack" value="19" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60006" article="a" name="sword +6">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="18" />
+		<attribute key="attack" value="20" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60007" article="a" name="sword +7">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="19" />
+		<attribute key="attack" value="21" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60008" article="a" name="sword +8">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="20" />
+		<attribute key="attack" value="22" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60009" article="a" name="sword +9">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="21" />
+		<attribute key="attack" value="23" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+	<item id="60010" article="a" name="sword +10">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="22" />
+		<attribute key="attack" value="24" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+	</item>
+
+	<!-- elemental variants for +5..+10 (fire as example) -->
+	<item id="60015" article="a" name="sword +5 (fire)">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="17" />
+		<attribute key="attack" value="19" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+		<attribute key="elementType" value="fire" />
+		<attribute key="elementDamage" value="12" />
+	</item>
+	<item id="60016" article="a" name="sword +6 (fire)">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="18" />
+		<attribute key="attack" value="20" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+		<attribute key="elementType" value="fire" />
+		<attribute key="elementDamage" value="13" />
+	</item>
+	<item id="60017" article="a" name="sword +7 (fire)">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="19" />
+		<attribute key="attack" value="21" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+		<attribute key="elementType" value="fire" />
+		<attribute key="elementDamage" value="14" />
+	</item>
+	<item id="60018" article="a" name="sword +8 (fire)">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="20" />
+		<attribute key="attack" value="22" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+		<attribute key="elementType" value="fire" />
+		<attribute key="elementDamage" value="15" />
+	</item>
+	<item id="60019" article="a" name="sword +9 (fire)">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="21" />
+		<attribute key="attack" value="23" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+		<attribute key="elementType" value="fire" />
+		<attribute key="elementDamage" value="16" />
+	</item>
+	<item id="60020" article="a" name="sword +10 (fire)">
+		<attribute key="weight" value="3500" />
+		<attribute key="defense" value="22" />
+		<attribute key="attack" value="24" />
+		<attribute key="weaponType" value="sword" />
+		<attribute key="extradef" value="1" />
+		<attribute key="elementType" value="fire" />
+		<attribute key="elementDamage" value="17" />
+	</item>
+	<!-- END CLONES -->
+
 </items>
