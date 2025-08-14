@@ -130,16 +130,24 @@ eKill:register()
 
 -- Element + extra phys – on each positive hit (fallback if runtime element unsupported)
 local eHit=CreatureEvent("WXP_Hit")
+local WXP_GUARD = {}
 function eHit.onHealthChange(creature,attacker,pdmg,ptype,sdmg,stype,origin)
-	if (pdmg or 0)<=0 then return pdmg,ptype,sdmg,stype end
 	local tgt=Creature(creature); if not tgt or tgt:isPlayer() then return pdmg,ptype,sdmg,stype end
 	local player=(type(attacker)=="number") and Player(attacker) or (attacker and attacker.isPlayer and attacker:isPlayer() and attacker:getPlayer() or nil)
 	if not player then return pdmg,ptype,sdmg,stype end
 	local tool,wt=getMeleeWeapon(player); if not tool then return pdmg,ptype,sdmg,stype end
 	local w=readWxp(tool)
+	-- anti-duplicate within one swing
+	local key=(player:getId())..":"..(tgt:getId())
+	if WXP_GUARD[key] then return pdmg,ptype,sdmg,stype end
+	WXP_GUARD[key]=true
+	addEvent(function() WXP_GUARD[key]=nil end, 150)
+	-- elemental extra hit (fallback style) + visual
 	if (w.level or 0)>=5 and w.elem~="" and ELEM[w.elem] then
 		dealDmg(player,tgt,ELEM[w.elem].type,ELEM[w.elem].effect,ELEM_EXTRA_MIN,ELEM_EXTRA_MAX)
+		local pos=tgt:getPosition(); if pos then pos:sendMagicEffect(ELEM[w.elem].effect) end
 	end
+	-- simulated +Atk extra
 	local extra=(w.level or 0)*EXTRA_PHYS_PER_LVL
 	if extra>0 then dealDmg(player,tgt,COMBAT_PHYSICALDAMAGE,CONST_ME_HITAREA,extra,extra) end
 	return pdmg,ptype,sdmg,stype
